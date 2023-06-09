@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tour extends Model
 {
+    protected $primaryKey = 'uuid';
+
     use HasFactory;
 }
