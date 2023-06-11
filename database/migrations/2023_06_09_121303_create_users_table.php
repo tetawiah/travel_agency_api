@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles');
         });
     }
 

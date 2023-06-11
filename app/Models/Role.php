@@ -8,5 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $primaryKey = 'uuid';
+
+    protected $fillable = ['name'];
     use HasFactory;
+
+    public function users () {
+        return $this->belongsToMany(User::class,'role_uuid');
+    }
+
 }
