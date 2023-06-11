@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('tours', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->foreignId('travel_id')->constrained('travels');
+            $table->uuid('travel_uuid');
+            $table->foreign('travel_uuid')->references('uuid')->on('travels');
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
-            $table->decimal('price');
+            $table->integer('price');
         });
     }
 
