@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tours', function (Blueprint $table) {
-            $table->uuid()->primary();
-            $table->uuid('travel_uuid');
-            $table->foreign('travel_uuid')->references('uuid')->on('travels');
+            $table->uuid('id')->primary();
+            $table->foreignuuid('travel_id')->references('id')->on('travels');
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('price');
-        });
+    });
     }
 
     /**

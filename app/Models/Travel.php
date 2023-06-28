@@ -11,12 +11,9 @@ use Spatie\Sluggable\SlugOptions;
 class Travel extends Model
 {
     protected $table = 'travels';
-    protected $primaryKey = 'uuid';
     public $timestamps = false;
-
     use HasFactory;
     use HasSlug;
-    use HasUuids;
 
     protected $fillable = ['is_public', 'slug', 'name', 'description', 'num_of_days',];
 
@@ -36,5 +33,6 @@ class Travel extends Model
     {
         return $this->num_of_days - 1;
     }
+
 
 }

@@ -17,11 +17,11 @@ class TravelFactory extends Factory
     public function definition(): array
     {
         return [
-            "uuid" => $this->faker->uuid,
+            "id" => $this->faker->uuid(),
             "is_public" => $this->faker->boolean(),
             "slug" => $this->faker->slug,
             "name" => $this->faker->name,
-            "description" => $this->faker->text(100),
+            "description" => $this->faker->text(50),
             "num_of_days" => rand(1,10),
         ];
     }

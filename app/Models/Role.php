@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $primaryKey = 'uuid';
 
     protected $fillable = ['name'];
     use HasFactory;

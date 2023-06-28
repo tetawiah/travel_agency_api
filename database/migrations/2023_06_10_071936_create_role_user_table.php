@@ -14,6 +14,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role_user', function (Blueprint $table) {
+            $table->id();
             $table->uuid('role_uuid');
             $table->uuid('user_uuid');
             $table->foreign('role_uuid')->references('uuid')->on('roles');
