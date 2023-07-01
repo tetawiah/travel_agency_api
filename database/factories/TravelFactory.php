@@ -17,7 +17,6 @@ class TravelFactory extends Factory
     public function definition(): array
     {
         return [
-            "id" => $this->faker->uuid(),
             "is_public" => $this->faker->boolean(),
             "slug" => $this->faker->slug,
             "name" => $this->faker->name,

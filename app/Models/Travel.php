@@ -14,6 +14,7 @@ class Travel extends Model
     public $timestamps = false;
     use HasFactory;
     use HasSlug;
+    use HasUuids;
 
     protected $fillable = ['is_public', 'slug', 'name', 'description', 'num_of_days',];
 

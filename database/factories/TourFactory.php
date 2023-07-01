@@ -19,7 +19,6 @@ class TourFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->uuid(),
             'travel_id' => Travel::factory()->create(),
             'name' => $this->faker->name(),
             'start_date' => $startDate = Carbon::now()->subDays(rand(1, 30)),

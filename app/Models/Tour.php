@@ -12,8 +12,9 @@ class Tour extends Model
     public $timestamps = false;
 
     use HasFactory;
+    use HasUuids;
 
-    protected $fillable = ['name','start_date','end_date','price'];
+    protected $fillable = ['travel_id','name','start_date','end_date','price'];
 
 
     public function travels(): BelongsTo
@@ -21,7 +22,8 @@ class Tour extends Model
         return $this->belongsTo(Travel::class,'tour_uuid');
     }
 
-    public function getPriceAttribute($value) {
+    public function getPriceAttribute($value): float|int
+    {
         return $value / 100;
     }
 

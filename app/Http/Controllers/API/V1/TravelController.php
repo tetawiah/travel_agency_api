@@ -26,6 +26,6 @@ class TravelController extends Controller
     }
 
     public function show(Travel $travel) {
-        return $travel->paginate();
+        return $travel->get();
     }
 }
