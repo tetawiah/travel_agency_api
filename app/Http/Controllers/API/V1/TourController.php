@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GetTravelToursRequest;
 use App\Http\Resources\TourResource;
 use App\Models\Tour;
 use App\Models\Travel;
@@ -11,8 +12,9 @@ use Ramsey\Collection\Collection;
 
 class TourController extends Controller
 {
-    public function index(Travel $travel)
+    public function index(GetTravelToursRequest $request,Travel $travel)
     {
+        info('',$request->toArray());
         $request = request();
            $tours =  $travel->tours()
                 ->when($request->filled('priceFrom') || $request->filled('priceTo'), function ($query) use ($request) {
