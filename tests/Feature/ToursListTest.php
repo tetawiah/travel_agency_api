@@ -98,7 +98,7 @@ class ToursListTest extends TestCase
     public function test_to_filter_tours_list_by_price()
     {
         $travel = Travel::factory()->create();
-        TestHelper::makeTour([
+        $price1 = TestHelper::makeTour([
             'travel_id' => $travel->id,
             'price' => 20,
         ]);
@@ -116,7 +116,26 @@ class ToursListTest extends TestCase
         ]);
         $response = $this->get("/api/v1/travels/$travel->slug/tours?priceFrom=56");
         $response->assertJsonCount(1,'data');
+        $response->assertJsonMissing(['price' => $price1->price]);
 
+
+    }
+
+    public function test_to_filter_tours_list_by_date()
+    {
+        $travel = Travel::factory()->create();
+        $earlierDate = TestHelper::makeTour(['travel_id' => $travel->id,
+            'start_date' => Carbon::now()->subDays(6)->format('Y-m-d'),
+            'end_date' => Carbon::now()->subDays(4)->format('Y-m-d'),
+        ]);
+
+        $laterDate = TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'start_date' => Carbon::now()->subDays(3)->format('Y-m-d'),
+            'end_date' => Carbon::now()->subDays(2)->format('Y-m-d'),
+        ]);
+        $response = $this->get("/api/v1/travels/$travel->slug/tours?startDate=".Carbon::now()->subDays(3)->format('Y-m-d'));
+        $response->assertJsonCount(1,'data');
 
     }
 }
