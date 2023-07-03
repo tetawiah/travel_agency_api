@@ -14,21 +14,23 @@ class TourController extends Controller
 {
     public function index(GetTravelToursRequest $request,Travel $travel)
     {
-        info('',$request->toArray());
-        $request = request();
            $tours =  $travel->tours()
-                ->when($request->filled('priceFrom') || $request->filled('priceTo'), function ($query) use ($request) {
-                    return $query->where('price','>=',$request->priceFrom)
-                        ->where('price','<=',$request->priceTo);
+                ->when($request->filled('priceFrom'), function ($query) use ($request) {
+                    return $query->where('price','>=',$request->priceFrom * 100);
             })
-                ->when($request->filled('startDate') || $request->filled('endDate'),function ($query) use ($request) {
-                    return $query->where('start_date','>=',$request->startDate)
-                        ->where('end_date', '<=', $request->endDate);
+               ->when($request->filled('priceTo'),function ($query) use ($request) {
+                   return $query->where('price','<=',$request->priceTo * 100);
+               })
+                ->when($request->filled('startDate'),function ($query) use ($request) {
+                    return $query->where('start_date','>=',$request->startDate);
                 })
+               ->when($request->filled('endDate'),function ($query) use ($request) {
+                     return $query->where('end_date', '<=', $request->endDate);
+    })
                ->when($request->filled('sortby') && $request->filled('sortOrder'),function ($query) use ($request) {
                    return $query->orderby($request->sortby,$request->sortOrder);
                })
-                ->get();
+                ->paginate();
 
         return TourResource::collection($tours);
     }

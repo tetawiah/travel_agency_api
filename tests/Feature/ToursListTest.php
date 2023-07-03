@@ -4,9 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Travel;
 use App\Models\Tour;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Util\Test;
 use Tests\TestCase;
+use Tests\TestHelper;
 
 class ToursListTest extends TestCase
 {
@@ -47,4 +50,73 @@ class ToursListTest extends TestCase
         $response->assertJsonFragment(["price" => "43.20"]);
     }
 
+    public function test_to_sort_tours_list_by_price()
+    {
+        $travel = Travel::factory()->create();
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 20,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 55.2,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 98.9,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 12,
+        ]);
+
+        $response = $this->get("/api/v1/travels/$travel->slug/tours?sortby=price&sortOrder=desc");
+        $response->assertJsonPath('data.0.price','98.90');
+        $response->assertJsonPath('data.1.price','55.20');
+        $response->assertJsonPath('data.3.price','12.00');
+    }
+
+    public function test_to_sort_tours_list_by_date()
+    {
+        $travel = Travel::factory()->create();
+        $earlierDate = TestHelper::makeTour(['travel_id' => $travel->id,
+            'start_date' => Carbon::now()->subDays(6)->format('Y-m-d'),
+            'end_date' => Carbon::now()->subDays(4)->format('Y-m-d'),
+            ]);
+
+        $laterDate = TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'start_date' => Carbon::now()->subDays(3)->format('Y-m-d'),
+            'end_date' => Carbon::now()->subDays(2)->format('Y-m-d'),
+            ]);
+        $response = $this->get("/api/v1/travels/$travel->slug/tours?sortby=start_date&sortOrder=desc");
+        $response->assertJsonPath('data.0.startDate',$laterDate->start_date);
+        $response->assertJsonPath('data.1.startDate',$earlierDate->start_date);
+
+    }
+
+    public function test_to_filter_tours_list_by_price()
+    {
+        $travel = Travel::factory()->create();
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 20,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 55.2,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 98.9,
+        ]);
+        TestHelper::makeTour([
+            'travel_id' => $travel->id,
+            'price' => 12,
+        ]);
+        $response = $this->get("/api/v1/travels/$travel->slug/tours?priceFrom=56");
+        $response->assertJsonCount(1,'data');
+
+
+    }
 }
