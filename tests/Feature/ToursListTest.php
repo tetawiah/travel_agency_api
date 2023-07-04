@@ -7,6 +7,7 @@ use App\Models\Tour;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use PHPUnit\Util\Test;
 use Tests\TestCase;
 use Tests\TestHelper;
@@ -137,5 +138,12 @@ class ToursListTest extends TestCase
         $response = $this->get("/api/v1/travels/$travel->slug/tours?startDate=".Carbon::now()->subDays(3)->format('Y-m-d'));
         $response->assertJsonCount(1,'data');
 
+    }
+
+    public function test_tour_list_returns_validation_errors()
+    {
+        $travel = Travel::factory()->create();
+        $this->get("/api/v1/travels/$travel->slug/tours?priceFrom=a")->assertSessionHasErrors();
+        $this->getJson("/api/v1/travels/$travel->slug/tours?priceFrom=a")->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

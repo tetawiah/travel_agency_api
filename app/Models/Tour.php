@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tour extends Model
 {
-    public $timestamps = false;
-
     use HasFactory;
     use HasUuids;
 

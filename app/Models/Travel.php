@@ -11,7 +11,7 @@ use Spatie\Sluggable\SlugOptions;
 class Travel extends Model
 {
     protected $table = 'travels';
-    public $timestamps = false;
+
     use HasFactory;
     use HasSlug;
     use HasUuids;

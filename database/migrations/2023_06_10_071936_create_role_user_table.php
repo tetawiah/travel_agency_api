@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('role_user', function (Blueprint $table) {
             $table->id();
-            $table->uuid('role_uuid');
-            $table->uuid('user_uuid');
-            $table->foreign('role_uuid')->references('uuid')->on('roles');
-            $table->foreign('user_uuid')->references('uuid')->on('users');
+            $table->foreignUuid('role_id')->references('id')->on('roles');
+            $table->foreignUuid('user_id')->references('id')->on('users');
         });
     }
 
