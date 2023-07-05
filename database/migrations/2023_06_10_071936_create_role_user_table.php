@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('role_id')->references('id')->on('roles');
             $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 

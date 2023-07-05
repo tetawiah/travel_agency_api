@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('num_of_days');
-
+            $table->timestamps();
         });
     }
 
