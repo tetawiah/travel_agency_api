@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TravelRequest extends FormRequest
+class TourRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class TravelRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'is_public'	=> ['boolean'],
-        'name' =>	['string','max:255',Rule::unique('travels')],
-        'description' => ['string','max:255'],
-            'num_of_days' => ['integer']
+            'name' => ['string','max:255',Rule::unique('tours')],
+            'start_date' => ['date'],
+            'end_date' => ['date','after:start_date'],
+            'price' => ['numeric'],
         ];
     }
 }
