@@ -25,8 +25,13 @@ Route::post('login',LoginController::class);
 Route::prefix('v1')->group(function () {
     Route::get('/travels',[TravelController::class,'index']);
     Route::get('/travels/{travel:slug}/tours',[TourController::class,'index']);
-    Route::prefix('admin')->middleware(['auth:sanctum','role:admin'])->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::post('travels',[Admin\TravelController::class,'store']);
         Route::post('travels/{travel:slug}/tours',[Admin\TourController::class,'store']);
+    });
+        Route::prefix('editor')->middleware('role:editor')->group(function () {
+            Route::put('travels/{travel:slug}',[TravelController::class,'update']);
+        });
     });
 });

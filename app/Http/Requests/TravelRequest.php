@@ -24,7 +24,7 @@ class TravelRequest extends FormRequest
     {
         return [
         'is_public'	=> ['boolean'],
-        'name' =>	['string','max:255',Rule::unique('travels')],
+        'name' =>	['string','max:255',Rule::unique('travels','name')],
         'description' => ['string','max:255'],
             'num_of_days' => ['integer']
         ];
